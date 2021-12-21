@@ -1,0 +1,24 @@
+<table class="table table-hover table-sm"">
+<thead>
+  <tr>
+    <th style="width: 2%;" scope="col">#</th>
+    <th style="width: 20%;" scope="col">Description</th>
+    <th style="width: 65%;" scope="col">Details</th>
+    <th style="width: 13%;" scope="col">Action</th>
+  </tr>
+</thead>
+<tbody>
+
+  <tr>
+    <% data.forEach((item, i) => { %>
+      <th scope="row"><%=i%></th>
+      <td><%=item.description%></td>
+      <td><%=item.details%></td>
+      <td> <button class="btn btn-sm btn-danger btn-rounded remove" id="<%=i%>D">Delete</<button>
+           <button class="btn btn-sm btn-info btn-rounded edit" id="<%=i%>E">Edit</<button>
+      </td>
+  </tr>
+  <% }) %>
+
+</tbody>
+</table>
