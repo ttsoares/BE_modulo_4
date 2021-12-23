@@ -1,11 +1,11 @@
 {
-  "name": "recados-nuvem-SQL",
+  "name": "recados-nuvem-TypeORM",
   "version": "1.0.0",
   "description": "Sistema do modulo 4 hospedado no Heroku",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "start": "node ./dist/index.js",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start": "node ./dist/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
     "build": "npx tsc",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
   },
