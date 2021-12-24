@@ -3,13 +3,14 @@ import Database from "../../../core/data/connections/Database";
 
 export default class commentsController {
 
-	// cadastra uma mensagem
+	// Add a message
 	public async store(req: Request, res: Response) {
 		const connection = new Database().getConnection();
 
 		const user_id:number = Number(req.params.userid)
 		const { description, details } = req.body;
 
+		// The 'uid' colummn is a Serial kind in the Messages table
 		const result = await connection.query(
 			`insert into messages(description, details, user_id)
 			 values ('${description}', '${details}', '${user_id}')
@@ -25,9 +26,10 @@ export default class commentsController {
 
 		const user_id:number = Number(req.params.userid)
 
-		const messages: Array<Object> = await connection.query(`select uid, description, details from messages WHERE user_id = '${user_id}'`);
+		const messages: Array<Object> = await connection.query(`select uid, description,
+			details from messages WHERE user_id = '${user_id}'`);
 
-		return res.status(200).render('messages', {data:messages});
+		return res.status(200).render('messages', {data:messages});  // To EJS
 	}
 
 	// busca uma mensagem para o processo de edição
