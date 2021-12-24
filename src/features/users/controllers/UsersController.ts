@@ -8,8 +8,6 @@ export default class UsersController {
 		const connection = new Database().getConnection();
 		const { name, password } = req.body;
 
-		console.log(name, password)
-
 		// verificar se o 'name' já existe
 		const exist: Array<Object> = await connection.query(`select FROM users WHERE name = '${name}'`);
 
@@ -29,9 +27,6 @@ export default class UsersController {
 //		const { name, password }: { name: string; password: string } = req.body;
 		const name = req.query.name;
 		const password = req.query.password;
-
-		console.log(name, password)
-
 
 		// verificar se o 'name' já existe
 		const exist: Array<Object> = await connection.query(`SELECT name FROM users WHERE name = '${name}'`);

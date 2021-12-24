@@ -25,7 +25,7 @@ export default class commentsController {
 
 		const user_id:number = Number(req.params.userid)
 
-		const messages: Array<Object> = await connection.query(`select description, details from messages WHERE user_id = '${user_id}'`);
+		const messages: Array<Object> = await connection.query(`select uid, description, details from messages WHERE user_id = '${user_id}'`);
 
 		return res.status(200).render('messages', {data:messages});
 	}
