@@ -1,7 +1,9 @@
 import { Request, Response } from "express";
 import Database from "../../../core/data/connections/Database";
 
-export default class commentsController {
+import { Message } from "../../../core/data/database/entities/Messages"
+
+export default class messagesController {
 
 	// Add a message
 	public async store(req: Request, res: Response) {
@@ -10,44 +12,62 @@ export default class commentsController {
 		const user_id:number = Number(req.params.userid)
 		const { description, details } = req.body;
 
-		// The 'uid' colummn is a Serial kind in the Messages table
-		const result = await connection.query(
-			`insert into messages(description, details, user_id)
-			 values ('${description}', '${details}', '${user_id}')
-		`);
+		// const result = await connection.query(
+		// 	`insert into messages(description, details, user_id)
+		// 	 values ('${description}', '${details}', '${user_id}')
+		// `);
+
+		const result: Message = await new Message(description, details, user_id).save();
 
 		const temp:object = { details: details, description: description, user_id: user_id }
 		return res.status(200).json(temp);
 	}
 
-	// mostra todas as mensagens
+	// Get all messages form a user
 	public async index(req: Request, res: Response) {
 		const connection = new Database().getConnection();
 
 		const user_id:number = Number(req.params.userid)
 
-		const messages: Array<Object> = await connection.query(`select uid, description,
-			details from messages WHERE user_id = '${user_id}'`);
+		console.log("11111111111111111111111111111111111111111111");
+
+		// const messages: Array<Object> = await connection.query(`select uid, description,
+		// 	details from messages WHERE user_id = '${user_id}'`);
+
+		const messages = await Message.find()
+
+		//const messages  = await Message.findOne({ where: [ {user_id: user_id} ]});
+
+		console.log("222222222222222222222222222222222222222222222");
+		console.log(messages);
 
 		return res.status(200).render('messages', {data:messages});  // To EJS
 	}
 
-	// busca uma mensagem para o processo de edição
+	// Find one message to start the edit process
 	public async view(req: Request, res: Response) {
 		const connection = new Database().getConnection();
 
 		const user_id:number = Number(req.params.userid)
 		const message_id:number = Number(req.params.messageid)
 
-		const message = await connection.query(
-			`select uid, details, description from messages where uid = '${message_id}'
-			 AND user_id = '${user_id}'`);
+		// const message = await connection.query(
+		// 	`select uid, details, description from messages where uid = '${message_id}'
+		// 	 AND user_id = '${user_id}'`);
 
-		const temp:object = { details: message[0].details, description: message[0].description }
-		return res.status(200).json(temp);
+		const message: Message | undefined = await Message.findOne({
+			where: [ {uid: message_id, user_id: user_id} ]
+		})
+
+		if (message) {
+			const temp:object = { details: message.details, description: message.description }
+			return res.status(200).json(temp);
+		} else {
+			res.status(400).send("Error");
+		}
 	}
 
-	// grava as modificações em uma mensagem
+	// Store the edited message
 	public async update(req: Request, res: Response) {
 		const connection = new Database().getConnection();
 
@@ -57,12 +77,24 @@ export default class commentsController {
 
 		if ( user_id && message_id && description && details ) {
 
-			const result = await connection.query(`
-        UPDATE messages SET description='${description}', details='${details}' WHERE uid = '${message_id}' AND user_id = '${user_id}'
-        `);
+			// const result = await connection.query(`
+      //   UPDATE messages SET description='${description}', details='${details}' WHERE uid = '${message_id}' AND user_id = '${user_id}'
+      //   `);
 
-			const temp:object = { details: details, description: description }
-			return res.status(200).json(temp);
+			const message: Message | undefined = await Message.findOne({
+				where: [ {uid: message_id, user_id: user_id} ]
+			})
+
+			if (message) {
+				message.description = description;
+				message.details = details
+				await Message.save(message);
+				const temp:object = { details: details, description: description }
+				return res.status(200).json(temp);
+			} else {
+					return res.status(400).send("Mensagem não encontrada !");
+			}
+
 		} else {
 			return res.status(400).send("Parâmetros faltando");
 		}
@@ -77,15 +109,24 @@ export default class commentsController {
 
 		if ( user_id && message_id) {
 
-			const message = await connection.query(
-				`select * from messages where uid='${message_id}' AND user_id = '${user_id}'`);
+			// const message = await connection.query(
+			// 	`select * from messages where uid='${message_id}' AND user_id = '${user_id}'`);
 
-			const result = await connection.query(
-				`DELETE FROM messages WHERE uid='${message_id}' AND user_id = '${user_id}'`);
+			const message: Message | undefined = await Message.findOne({
+				where: [ {uid: message_id, user_id: user_id} ]
+			})
 
-			const temp:object={details: message[0].details, description: message[0].description}
-			return res.status(200).json(temp);
+			if (message) {
+				const temp:object={details: message.details, description: message.description}
 
+				// const result = await connection.query(
+				// 	`DELETE FROM messages WHERE uid='${message_id}' AND user_id = '${user_id}'`);
+
+				const remove = await Message.remove(message!)
+				return res.status(200).json(temp);
+			} else {
+					return res.status(400).send("Mensagem não encontrada");
+			}
 		} else {
 			return res.status(400).send("Parâmetros faltando");
 		}

@@ -16,6 +16,9 @@ export default class Routes{
         // no body vai 'name, password'
         routes.get('/pass', controller.index);
 
+        // LIST ALL Users
+        routes.get('/users', controller.index_all);
+
         return routes;
     }
 }
