@@ -29,17 +29,12 @@ export default class messagesController {
 
 		const user_id:number = Number(req.params.userid)
 
-		console.log("11111111111111111111111111111111111111111111");
-
 		// const messages: Array<Object> = await connection.query(`select uid, description,
 		// 	details from messages WHERE user_id = '${user_id}'`);
 
-		const messages = await Message.find()
+		const messages = await Message.find( { where: [ { user_id: user_id } ] } )
 
 		//const messages  = await Message.findOne({ where: [ {user_id: user_id} ]});
-
-		console.log("222222222222222222222222222222222222222222222");
-		console.log(messages);
 
 		return res.status(200).render('messages', {data:messages});  // To EJS
 	}
