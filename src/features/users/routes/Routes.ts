@@ -19,6 +19,13 @@ export default class Routes{
         // LIST ALL Users
         routes.get('/users', controller.index_all);
 
+        // DELETE  AN USER
+        routes.delete('/user/:userid', controller.destroy);
+
+        // SAVE EDITED USER
+        // no body vão description e details
+        routes.put('/user/:userid', controller.update);
+
         return routes;
     }
 }

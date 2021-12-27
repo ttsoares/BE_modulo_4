@@ -56,6 +56,59 @@ export default class UsersController {
 	public async index_all(req: Request, res: Response) {
 		const connection = new Database().getConnection();
 		const allUsers = await User.find()
-		return res.status(200).json(allUsers)
+
+		return res.status(200).render('users', {data:allUsers});  // To EJS
+	}
+
+	// Delete an user
+	public async destroy(req: Request, res: Response) {
+		const connection = new Database().getConnection();
+		const user_id:number = Number(req.params.userid)
+
+		if ( user_id ) {
+			const findUser: User | undefined = await User.findOne({
+				where: [ { uid: user_id} ]
+			})
+
+			if (findUser) {
+				const temp:object={name: findUser.name, password: findUser.password}
+
+				const remove = await User.remove(findUser)
+				return res.status(200).json(temp);
+			} else {
+					return res.status(400).send("Usuário não encontrada");
+			}
+		} else {
+			return res.status(400).send("Parâmetros faltando");
+		}
+	}
+
+	// Store the edited user
+	public async update(req: Request, res: Response) {
+		const connection = new Database().getConnection();
+
+		const user_id:number = Number(req.params.userid)
+		const { name, password }: { name: string; password: string } = req.body;
+
+		if ( user_id && name && password ) {
+
+			const findUser: User | undefined = await User.findOne({
+				where: [ {uid: user_id} ]
+			})
+
+			if ( findUser ) {
+				findUser.name = name;
+				findUser.password = password;
+				await User.save(findUser);
+
+				const temp:object = { name: name, password: password }
+				return res.status(200).json(temp);
+			} else {
+					return res.status(400).send("Ussuário não encontrado !");
+			}
+
+		} else {
+			return res.status(400).send("Parâmetros faltando");
+		}
 	}
 }
