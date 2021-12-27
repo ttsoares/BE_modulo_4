@@ -11,13 +11,13 @@ export default class Routes{
 
         // ADD MESSAGES TO AN USER
         // no body vão description e details
-        routes.post('/user/:userid', controller.store);
+        routes.post('/addusermsg/:userid', controller.storeMsgs);
 
         // GET ALL MESSAGES FROM AN USER
-        routes.get('/user/:userid', controller.index);
+        routes.get('/usermsgs/:userid', controller.indexMsgs);
 
         // DELETE MESSAGES FROM AN USER
-        routes.delete('/user/:userid/message/:messageid', controller.destroy);
+        routes.delete('/user/:userid/message/:messageid', controller.destroyMsgs);
 
         // RETURN ONE MESSAGE FROM AN USER
         routes.get('/user/:userid/message/:messageid', controller.view);

@@ -1,9 +1,10 @@
 <table class="table table-hover table-sm"">
 <thead>
   <tr>
-    <th style="width: 2%;" scope="col">#</th>
-    <th style="width: 65%;" scope="col">User Name</th>
-    <th style="width: 13%;" scope="col">Password</th>
+    <th style="width: 4%;" scope="col">#</th>
+    <th style="width: 40%;" scope="col">User Name</th>
+    <th style="width: 40%;" scope="col">Password</th>
+    <th style="width: 15%;" scope="col">  OPs  </th>
   </tr>
 </thead>
 <tbody>
@@ -12,7 +13,7 @@
 
   <tr>
     <% data.forEach((item, i) => { %>
-      <th scope="row"><%=i%></th>
+      <th scope="row"><%=item.uid%></th>
       <td><%=item.name%></td>
       <td><%=item.password%></td>
       <td> <button class="btn btn-sm btn-danger btn-rounded remove" id="<%=item.uid%>D">Delete</<button>

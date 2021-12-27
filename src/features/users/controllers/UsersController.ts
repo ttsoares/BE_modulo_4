@@ -6,7 +6,7 @@ import { User } from "../../../core/data/database/entities/Users"
 export default class UsersController {
 
 	// Add a user
-	public async store(req: Request, res: Response) {
+	public async storeUser(req: Request, res: Response) {
 		const connection = new Database().getConnection();
 		const { name, password } = req.body;
 
@@ -72,7 +72,6 @@ export default class UsersController {
 
 			if (findUser) {
 				const temp:object={name: findUser.name, password: findUser.password}
-
 				const remove = await User.remove(findUser)
 				return res.status(200).json(temp);
 			} else {
@@ -80,6 +79,24 @@ export default class UsersController {
 			}
 		} else {
 			return res.status(400).send("Parâmetros faltando");
+		}
+	}
+
+	// Find one user to start the edit process
+	public async getone(req: Request, res: Response) {
+		const connection = new Database().getConnection();
+
+		const user_id:number = Number(req.params.userid)
+
+		const findUser: User | undefined = await User.findOne({
+			where: [ {uid: user_id} ]
+		})
+
+		if (findUser) {
+			const temp:object = { name: findUser.name, password: findUser.password }
+			return res.status(200).json(temp);
+		} else {
+			res.status(400).send("Error");
 		}
 	}
 
@@ -104,7 +121,7 @@ export default class UsersController {
 				const temp:object = { name: name, password: password }
 				return res.status(200).json(temp);
 			} else {
-					return res.status(400).send("Ussuário não encontrado !");
+					return res.status(400).send("Usuário não encontrado !");
 			}
 
 		} else {

@@ -9,7 +9,7 @@ export default class Routes{
 
         // CREATE A USER
         //no body vai 'name, password'
-        routes.post('/user', controller.store);
+        routes.post('/adduser', controller.storeUser);
 
         // VERIFY USER PASS - IF PASS ok RETURNS 'uid'
         // era put mas devia ser get
@@ -19,12 +19,15 @@ export default class Routes{
         // LIST ALL Users
         routes.get('/users', controller.index_all);
 
-        // DELETE  AN USER
-        routes.delete('/user/:userid', controller.destroy);
+        // GET ONE USER FOR EDIT
+        routes.get('/eduser/:userid', controller.getone);
 
         // SAVE EDITED USER
         // no body vão description e details
         routes.put('/user/:userid', controller.update);
+
+        // DELETE  AN USER
+        routes.delete('/user/:userid', controller.destroy);
 
         return routes;
     }

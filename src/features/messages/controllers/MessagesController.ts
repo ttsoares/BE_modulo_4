@@ -6,7 +6,7 @@ import { Message } from "../../../core/data/database/entities/Messages"
 export default class messagesController {
 
 	// Add a message
-	public async store(req: Request, res: Response) {
+	public async storeMsgs(req: Request, res: Response) {
 		const connection = new Database().getConnection();
 
 		const user_id:number = Number(req.params.userid)
@@ -24,7 +24,7 @@ export default class messagesController {
 	}
 
 	// Get all messages form a user
-	public async index(req: Request, res: Response) {
+	public async indexMsgs(req: Request, res: Response) {
 		const connection = new Database().getConnection();
 
 		const user_id:number = Number(req.params.userid)
@@ -33,8 +33,6 @@ export default class messagesController {
 		// 	details from messages WHERE user_id = '${user_id}'`);
 
 		const messages = await Message.find( { where: [ { user_id: user_id } ] } )
-
-		//const messages  = await Message.findOne({ where: [ {user_id: user_id} ]});
 
 		return res.status(200).render('messages', {data:messages});  // To EJS
 	}
@@ -96,7 +94,7 @@ export default class messagesController {
 	}
 
 	// remove uma mensagem
-	public async destroy(req: Request, res: Response) {
+	public async destroyMsgs(req: Request, res: Response) {
 		const connection = new Database().getConnection();
 
 		const user_id:number = Number(req.params.userid)
