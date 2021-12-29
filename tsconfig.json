@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
 
-    "target": "es6",
+    "target": "es2015",
+/*    "module": "es2015",*/
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
 

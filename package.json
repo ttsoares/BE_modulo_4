@@ -2,7 +2,7 @@
   "name": "recados-nuvem-TypeORM",
   "version": "1.0.0",
   "description": "Sistema do modulo 4 hospedado no Heroku",
-  "main": "server.js",
+  "main": "./dist/server.js",
   "scripts": {
     "start": "node ./dist/server.js",
     "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
