@@ -11,10 +11,10 @@ module.exports = {
   synchronize: false,
   logging: false,
   entities: ["dist/core/data/database/entities/**/*"],
-  migrations: ["dist/core/data/database/migrations/**/*"],
+  migrations: ["src/core/data/database/migrations/**/*"],
   cli: {
-    entitiesDir: "dist/core/data/database/entities",
-    migrationsDir: "dist/core/data/database/migrations",
+    entitiesDir: "src/core/data/database/entities",
+    migrationsDir: "src/core/data/database/migrations",
   },
   extra: {
     ssl: {
