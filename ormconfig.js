@@ -9,11 +9,12 @@ module.exports = {
   // username: process.env.DB_USERNAME,
   // password: process.env.DB_PASSWORD,
   // database: process.env.DATABASE,
-  
+
   synchronize: false,
   logging: false,
+
   entities: ["dist/core/data/database/entities/**/*"],
-  migrations: ["src/core/data/database/migrations/**/*"],
+  migrations: ["dist/core/data/database/migrations/**/*"],
   cli: {
     entitiesDir: "src/core/data/database/entities",
     migrationsDir: "src/core/data/database/migrations",

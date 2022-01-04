@@ -10,7 +10,6 @@ export default class Routes{
         const controller = new messagesController();
 
         // ADD MESSAGES TO AN USER
-        // no body vão description e details
         routes.post('/addusermsg/:userid', controller.storeMsgs);
 
         // GET ALL MESSAGES FROM AN USER
@@ -23,7 +22,6 @@ export default class Routes{
         routes.get('/user/:userid/message/:messageid', controller.view);
 
         // SAVE EDITED MESSAGE FROM AN USER
-        // no body vão description e details
         routes.put('/user/:userid/message/:messageid', controller.update);
 
         return routes;
