@@ -8,12 +8,9 @@ export default class Routes{
         const controller = new UsersController();
 
         // CREATE A USER
-        //no body vai 'name, password'
         routes.post('/adduser', controller.storeUser);
 
         // VERIFY USER PASS - IF PASS ok RETURNS 'uid'
-        // era put mas devia ser get
-        // no body vai 'name, password'
         routes.get('/pass', controller.index);
 
         // LIST ALL Users
@@ -23,7 +20,6 @@ export default class Routes{
         routes.get('/eduser/:userid', controller.getone);
 
         // SAVE EDITED USER
-        // no body vão description e details
         routes.put('/user/:userid', controller.update);
 
         // DELETE  AN USER
