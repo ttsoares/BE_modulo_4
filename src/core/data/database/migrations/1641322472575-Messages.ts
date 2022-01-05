@@ -15,7 +15,7 @@ export class Messages1641322472575 implements MigrationInterface {
         {
           name: 'description',
           type: 'varchar',
-          length: '25',
+          length: '45',
           isNullable: false,
         },
         {

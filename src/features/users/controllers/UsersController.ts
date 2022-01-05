@@ -1,7 +1,8 @@
 import { Request, Response } from "express";
 import Database from "../../../core/data/connections/Database";
-
 import { User } from "../../../core/data/database/entities/Users"
+
+const UnE = "Usuário não encntrado"
 
 export default class UsersController {
 
@@ -20,10 +21,12 @@ export default class UsersController {
 		}
 
 		// await connection.query(`insert into users(name, password) values('${name}', '${password}')`);
-		const newUser: User = await new User(name, password).save();
-
-		const temp:object = { name: newUser.name, password: newUser.password }
-		return res.status(200).json(temp);
+		try {
+			const newUser: User = await new User(name, password).save();
+			return res.status(200).json(newUser);
+		} catch {
+			return res.status(400).send("Não foi possível criar o usuário");
+		}
 	}
 
 	// Check the user's password
@@ -38,7 +41,7 @@ export default class UsersController {
 		const userExist: User | undefined = await User.findOne({where: [{name: name}]})
 
 		if ( ! userExist ) { // If something comes back the user do exists
-			return res.status(400).send("Usuário não existe !")
+			return res.status(400).send(`${UnE}`)
 		}
 
 		// const userID: Array<User> = await connection.query(`SELECT uid FROM users WHERE
@@ -66,16 +69,16 @@ export default class UsersController {
 		const user_id:number = Number(req.params.userid)
 
 		if ( user_id ) {
-			const findUser: User | undefined = await User.findOne({
-				where: [ { uid: user_id} ]
-			})
+			const findUser: User | undefined = await User.findOne(user_id)
+
+			//const findUser: User | undefined = await User.findOne({where: [ { uid: user_id} ]})
 
 			if (findUser) {
 				const temp:object={name: findUser.name, password: findUser.password}
 				const remove = await User.remove(findUser)
 				return res.status(200).json(temp);
 			} else {
-					return res.status(400).send("Usuário não encontrada");
+					return res.status(400).send(`${UnE}`);
 			}
 		} else {
 			return res.status(400).send("Parâmetros faltando");
@@ -96,7 +99,7 @@ export default class UsersController {
 			const temp:object = { name: findUser.name, password: findUser.password }
 			return res.status(200).json(temp);
 		} else {
-			res.status(400).send("Error");
+			res.status(400).send(`$(UnE)`);
 		}
 	}
 
@@ -121,7 +124,7 @@ export default class UsersController {
 				const temp:object = { name: name, password: password }
 				return res.status(200).json(temp);
 			} else {
-					return res.status(400).send("Usuário não encontrado !");
+					return res.status(400).send(`${UnE}`);
 			}
 
 		} else {
