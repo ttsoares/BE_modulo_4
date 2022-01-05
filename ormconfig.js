@@ -1,17 +1,18 @@
 require("dotenv").config();
 
-const BASE_CORE_DATA_DIR = process.env.PRODUCTION ? `dist` : `src`;
+let BASE_CORE_DATA_DIR = `src`;
+let custom_url = process.env.L_DATABASE_URL;
+
+if (process.env.PROD) {
+  BASE_CORE_DATA_DIR = `dist`;
+  custom_url = process.env.R_DATABASE_URL;
+}
+
+console.log(custom_url, "%%%%%%%%%%%", BASE_CORE_DATA_DIR);
 
 module.exports = {
   type: "postgres",
-  url: process.env.DATABASE_URL,
-
-  //host: process.env.DB_HOST,
-  //port: process.env.DB_PORT,
-  //username: process.env.DB_USERNAME,
-  //password: process.env.DB_PASSWORD,
-  //database: process.env.DATABASE,
-
+  url: `${custom_url}`,
   synchronize: false,
   logging: false,
 
