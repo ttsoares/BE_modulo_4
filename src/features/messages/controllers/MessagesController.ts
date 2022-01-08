@@ -17,7 +17,7 @@ export default class messagesController {
 		// 	 values ('${description}', '${details}', '${user_id}')
 		// `);
 
-		const result: Message = await new Message(description, details, user_id).save();
+		const result: Message = await new Message(description.slice(0,44), details.slice(0,149), user_id).save();
 
 		const temp:object = { details: details, description: description, user_id: user_id }
 		return res.status(200).json(temp);

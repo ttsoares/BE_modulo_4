@@ -22,7 +22,7 @@ export default class UsersController {
 
 		// await connection.query(`insert into users(name, password) values('${name}', '${password}')`);
 		try {
-			const newUser: User = await new User(name, password).save();
+			const newUser: User = await new User(name.slice(0,19), password.slice(0,14)).save();
 			return res.status(200).json(newUser);
 		} catch {
 			return res.status(400).send("Não foi possível criar o usuário");
