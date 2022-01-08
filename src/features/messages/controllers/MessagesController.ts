@@ -93,7 +93,7 @@ export default class messagesController {
 		}
 	}
 
-	// remove uma mensagem
+	// remove a message
 	public async destroyMsgs(req: Request, res: Response) {
 		const connection = new Database().getConnection();
 

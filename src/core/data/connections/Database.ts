@@ -1,13 +1,13 @@
-// importa duas funções do typeorm
+// importa typeorm functions 
 import { Connection, createConnection } from 'typeorm';
 
-// definição da classe 'Database'
+// Database class definition
 export default class Database {
 
-    // criação do objeto connection do tipo Connection
+    // Creation of the connection object
     private static connection: Connection;
 
-    // definição do método getConnection do tipo Connection
+    // getConnection definition of Cnnection kind
     public getConnection(): Connection {
 
         if (Database.connection === null || Database.connection === undefined) {
@@ -19,7 +19,6 @@ export default class Database {
     public async openConnection(): Promise<void> {
         if (Database.connection === null || Database.connection === undefined) {
             try {
-                // dados sobre o DB no ormconfig.js
                 Database.connection = await createConnection();
             } catch (error) {
                 console.error('ERRO AO CONECTAR NO BANCO ->', error);
