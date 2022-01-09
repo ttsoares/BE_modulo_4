@@ -1,19 +1,26 @@
 require("dotenv").config();
 
+let BASE_CORE_DATA_DIR = `src`;
+let custom_url = process.env.L_DATABASE_URL;
+
+if (process.env.PROD) {
+  BASE_CORE_DATA_DIR = `dist`;
+  custom_url = process.env.R_DATABASE_URL;
+}
+
+console.log(custom_url, "%%%%%%%%%%%", BASE_CORE_DATA_DIR);
+
 module.exports = {
   type: "postgres",
-  url: process.env.R_DATABASE_URL,
-
+  url: `${custom_url}`,
   synchronize: false,
   logging: false,
 
-  //${__dirname}
-
-  entities: [`dist/core/data/database/entities/**/*`],
-  migrations: [`dist/core/data/database/migrations/**/*`],
+  entities: [`${BASE_CORE_DATA_DIR}/core/data/database/entities/**/*`],
+  migrations: [`${BASE_CORE_DATA_DIR}/core/data/database/migrations/**/*`],
   cli: {
-    entitiesDir: `src/core/data/database/entities`,
-    migrationsDir: `src/core/data/database/migrations`,
+    entitiesDir: "src/core/data/database/entities",
+    migrationsDir: "src/core/data/database/migrations",
   },
   extra: {
     ssl: {
