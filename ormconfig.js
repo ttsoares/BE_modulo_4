@@ -1,11 +1,11 @@
 require("dotenv").config();
 
 let BASE_CORE_DATA_DIR = `src`;
-let custom_url = process.env.L_DATABASE_URL;
+let custom_url = process.env.LOCAL_DATABASE_URL;
 
 if (process.env.PROD) {
   BASE_CORE_DATA_DIR = `dist`;
-  custom_url = process.env.R_DATABASE_URL;
+  custom_url = process.env.DATABASE_URL;
 }
 
 console.log(custom_url, "%%%%%%%%%%%", BASE_CORE_DATA_DIR);

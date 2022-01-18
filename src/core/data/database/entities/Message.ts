@@ -1,6 +1,6 @@
-import { BaseEntity, Column, PrimaryGeneratedColumn, Entity, OneToOne, PrimaryColumn } from "typeorm";
+import { BaseEntity, Column, PrimaryGeneratedColumn, Entity, ManyToOne, PrimaryColumn, JoinColumn } from "typeorm";
 
-import { User } from "./Users"
+import { User } from "./User"
 
 @Entity({ name: "messages" })
 export class Message extends BaseEntity {
@@ -16,8 +16,9 @@ export class Message extends BaseEntity {
   @Column()
     user_id: number;
 
-  @OneToOne(() => User, user => user.message)
-  user?: User;
+  @ManyToOne(() => User, user => user.message)
+  @JoinColumn({ name: "user_id", referencedColumnName: "uid" })
+  user!: User;
 
   constructor( description: string, details: string, user_id: number ) {
     super();

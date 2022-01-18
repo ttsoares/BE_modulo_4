@@ -1,6 +1,6 @@
-import {MigrationInterface, QueryRunner, Table} from "typeorm";
+import {MigrationInterface, QueryRunner, Table, TableForeignKey} from "typeorm";
 
-export class Messages1641322472575 implements MigrationInterface {
+export class Messages16413224725 implements MigrationInterface {
 
   public async up(queryRunner: QueryRunner): Promise<void> {
     await queryRunner.createTable(new Table({
@@ -23,8 +23,21 @@ export class Messages1641322472575 implements MigrationInterface {
           type: 'varchar',
           length: '150',
           isNullable: false,
+        },
+        {
+        name: 'user_id',
+        type: 'integer',
+        isNullable: false,
         }
-      ]
+      ],
+      foreignKeys: [
+          new TableForeignKey({
+            name: "messages_user",
+            columnNames: ["user_id"],
+            referencedTableName: "users",
+            referencedColumnNames: ["uid"],
+          }),
+        ],
     }));
   }
 

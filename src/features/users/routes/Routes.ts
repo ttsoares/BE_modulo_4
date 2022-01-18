@@ -8,16 +8,16 @@ export default class Routes{
         const controller = new UsersController();
 
         // CREATE A USER
-        routes.post('/adduser', controller.storeUser);
+        routes.post('/user/store', controller.store);
 
         // VERIFY USER PASS - IF PASS ok RETURNS 'uid'
-        routes.get('/pass', controller.index);
+        routes.post('/user', controller.index);
 
         // LIST ALL Users
-        routes.get('/users', controller.index_all);
+        routes.get('/users', controller.view);
 
         // GET ONE USER FOR EDIT
-        routes.get('/eduser/:userid', controller.getone);
+        routes.get('/user/:userid', controller.index2);
 
         // SAVE EDITED USER
         routes.put('/user/:userid', controller.update);
